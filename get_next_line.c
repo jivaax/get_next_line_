@@ -6,7 +6,7 @@
 /*   By: jwira <jwira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 19:47:49 by juliannawir       #+#    #+#             */
-/*   Updated: 2026/01/09 13:31:04 by jwira            ###   ########.fr       */
+/*   Updated: 2026/01/09 13:58:30 by jwira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,14 @@ static char	*cut_line(char	*stash)
 		i++;
 	if (stash[i] == '\n')
 	{
+		stash[i + 1] = '\0';
 		new_stash = ft_substr(stash, i + 1, ft_strlen(stash) - i);
 		if (!new_stash)
 			return (NULL);
-		stash[i + 1] = '\0';
 	}
 	else
 		new_stash = NULL;
+	free(stash);
 	return (new_stash);
 }
 
@@ -55,7 +56,6 @@ static char	*fill_line(int fd, char *stash, char *buf)
 		buf[bytes_read] = '\0';
 		temp = stash;
 		stash = ft_strjoin(temp, buf);
-		free (temp);
 		if (!stash || ft_strchr(buf, '\n'))
 			break ;
 	}
@@ -81,31 +81,26 @@ char	*get_next_line(int fd)
 		stash = NULL;
 		return (NULL);
 	}
-	line = stash;
-	stash = cut_line(line);
+	line = ft_strdup(stash);
+	if (!line)
+		return (NULL);
+	stash = cut_line(stash);
 	return (line);
 }
 
 //int	main(void)
 //{
 //	int		fd;
-//
-//	fd = open("file.txt", O_RDONLY);
+//	char	*line;
+
+//	fd = open("get_next_line.c", O_RDONLY);
 //	if (fd == -1)
 //		return (1);
-//	printf("GNL 1: %s", get_next_line(fd));
-//	printf("GNL 2: %s", get_next_line(fd));
-//	printf("GNL 3: %s", get_next_line(fd));
-//	printf("GNL 4: %s", get_next_line(fd));
-//	printf("GNL 5: %s", get_next_line(fd));
-//	printf("GNL 6: %s", get_next_line(fd));
-//	printf("GNL 7: %s", get_next_line(fd));
-//	printf("GNL 8: %s", get_next_line(fd));
-//	printf("GNL 9: %s", get_next_line(fd));
-//	printf("GNL 10: %s", get_next_line(fd));
-//	printf("GNL 11: %s", get_next_line(fd));
-//	printf("GNL 12: %s", get_next_line(fd));
-//	printf("GNL 13: %s", get_next_line(fd));
-//	printf("GNL 14: %s", get_next_line(fd));
+//	while ((line = get_next_line(fd)) != NULL)
+//	{
+//		printf("GNL 1: %s", line);
+//		free(line);
+//	}
+//	close(fd);
 //	return (0);
 //}

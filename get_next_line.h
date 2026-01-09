@@ -6,14 +6,14 @@
 /*   By: jwira <jwira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 13:15:35 by jwira             #+#    #+#             */
-/*   Updated: 2026/01/09 13:16:20 by jwira            ###   ########.fr       */
+/*   Updated: 2026/01/09 13:56:33 by jwira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 30
+#  define BUFFER_SIZE 1
 # endif
 # include <fcntl.h>
 # include <unistd.h>
