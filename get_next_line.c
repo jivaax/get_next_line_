@@ -6,7 +6,7 @@
 /*   By: jwira <jwira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 19:47:49 by juliannawir       #+#    #+#             */
-/*   Updated: 2026/01/09 13:58:30 by jwira            ###   ########.fr       */
+/*   Updated: 2026/01/09 14:48:48 by jwira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,13 @@ static char	*cut_line(char	*stash)
 		i++;
 	if (stash[i] == '\n')
 	{
-		stash[i + 1] = '\0';
-		new_stash = ft_substr(stash, i + 1, ft_strlen(stash) - i);
+		new_stash = ft_strdup(stash + i + 1);
 		if (!new_stash)
 			return (NULL);
+		stash[i + 1] = '\0';
 	}
 	else
 		new_stash = NULL;
-	free(stash);
 	return (new_stash);
 }
 
@@ -56,6 +55,7 @@ static char	*fill_line(int fd, char *stash, char *buf)
 		buf[bytes_read] = '\0';
 		temp = stash;
 		stash = ft_strjoin(temp, buf);
+		free (temp);
 		if (!stash || ft_strchr(buf, '\n'))
 			break ;
 	}
@@ -68,37 +68,38 @@ char	*get_next_line(int fd)
 	static char	*stash;
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
+	line = NULL;
 	buf = malloc(BUFFER_SIZE + 1);
-	if (!buf)
-		return (NULL);
-	stash = fill_line(fd, stash, buf);
-	free (buf);
-	if (!stash || stash[0] == '\0')
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 	{
 		free (stash);
+		free (buf);
 		stash = NULL;
+		buf = NULL;
 		return (NULL);
 	}
-	line = ft_strdup(stash);
-	if (!line)
+	if (!buf)
 		return (NULL);
-	stash = cut_line(stash);
+	line = fill_line(fd, stash, buf);
+	free (buf);
+	buf = NULL;
+	if (!line || line[0] == '\0')
+		return (free(line), stash = NULL, NULL);
+	stash = cut_line(line);
 	return (line);
 }
 
 //int	main(void)
 //{
 //	int		fd;
-//	char	*line;
-
+//	char 	*line;
+//
 //	fd = open("get_next_line.c", O_RDONLY);
 //	if (fd == -1)
 //		return (1);
 //	while ((line = get_next_line(fd)) != NULL)
 //	{
-//		printf("GNL 1: %s", line);
+//		printf("%s", line);
 //		free(line);
 //	}
 //	close(fd);

@@ -6,7 +6,7 @@
 /*   By: jwira <jwira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 19:48:45 by juliannawir       #+#    #+#             */
-/*   Updated: 2026/01/09 13:51:01 by jwira            ###   ########.fr       */
+/*   Updated: 2026/01/09 14:42:51 by jwira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ char	*ft_strjoin(char *s1, char *s2)
 		j++;
 	}
 	concat[i + j] = '\0';
-	free(s1);
 	return (concat);
 }
 
